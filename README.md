@@ -1,3 +1,9 @@
+```
+yarn install
+yarn start
+```
+
+http://localhost:3009/
 ## Simple starter kit for quick POC purposes only
 * with react 18 as front server side render enabled 
 * spins up an end point to host api within the same application.
