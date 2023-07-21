@@ -1,15 +1,30 @@
+### Configurations
+create a .env file in the root of the application (never add this file to stash repository)
+
+Add below keys to your .env file 
+
+```
+OPEN_API_KEY=YOUR KEY
+```
+
+### Install and run
+
 ```
 yarn install
+
 yarn start
+
 ```
 
 http://localhost:3009/
+
 ## Simple starter kit for quick POC purposes only
+
 * with react 18 as front server side render enabled 
 * spins up an end point to host api within the same application.
 * Supports TS
 * Webpack module federation is enabled
-* OpenAI packages are included and sample API is included (read the need for env definitions part of below checklist)
+* OpenAI packages are included and sample API is included (read the need for env definitions)
 * Under /tools/ directory there is a postman file in case you want to test your apis quickly.
 
 ## Checklist before you run
@@ -30,14 +45,14 @@ OPEN_API_KEY=YOUR KEY
 - [X] Enable Environment variables support
 - [X] Add Open AI modules
 - [X] Add an example Open AI completion api endpoint
-- [ ] Add axios support
+- [X] Add axios support
 - [ ] Add Graph API support
 - [ ] Enable HMR support
-- [ ] Add an example for ChatGPT function
-- [ ] Add an example for ChatGPT gpt turbo model
+- [X] Add an example for ChatGPT function
+- [X] Add an example for ChatGPT gpt turbo model
 - [X] Add postman file for quick run
 - [ ] Add environment variables to postman 
-- [ ] React UI to submit prompts
+- [X] React UI to submit prompts
 - [ ] Add web component example
 - [ ] Service worker support
 - [ ] WASM Example
