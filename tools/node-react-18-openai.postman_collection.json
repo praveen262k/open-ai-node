@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "36f18d64-525e-4180-98b4-e5912d9113b1",
+		"name": "node-react-18-openai",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "66431"
+	},
+	"item": [
+		{
+			"name": "completion",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"prompt\": \"What is the typical weather in Dallas\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3009/ask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3009",
+					"path": [
+						"ask"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
