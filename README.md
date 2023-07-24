@@ -36,6 +36,40 @@ Add below keys to your .env file
 OPEN_API_KEY=YOUR KEY
 </code>
 
+###OpenAI 3 things you can do now in this kit
+* /api/ask.js has an example on chat completion integration darwin syntax
+* /api/chat.js has an example on chat completion integration using turbo version syntax
+* /api/fn.js has an example on function calling chat completion integration, look at below section for more information
+
+#### Specific to function
+Typical usage of function call involves, defining the function model parameters. And second, defining the function - actual implementation that takes parameters and returns json response for OpenAI to infer.
+
+So as **Step#1** I included both the function model and the function implementation in one file and export them in below structure
+```
+const getWeatherMeta = {
+    // define the function model
+};
+
+const getWeather = (params) => {
+    // implement api call and return the weather as json
+};
+
+export default {
+  fn: getWeather,
+  meta: getWeatherMeta,
+};
+```
+
+Step#2: Import the file to registry.js
+```
+Follow the steps inside this file. 3 steps have been documented.
+
+```
+IMPORTANT: This is the NOT definetly the best or right way to do but just to make development quick for POC 
+
+Restart the application for every change, then you are all done (till HMR is done :))
+
+
 #### Things to do ###
 
 - [X] Basic react 18 server side rendering

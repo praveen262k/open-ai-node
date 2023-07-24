@@ -1,43 +1,18 @@
+import registry from "./function/registry";
+
 export default (openai) => async (req, res) => {
   const prompt = req.body.prompt;
   const config = req.body?.config || {};
+  
   const data = {
     model: "gpt-3.5-turbo-0613",
     messages: [{ role: "user", content: prompt }],
-    functions: [
-      {
-        name: "get_current_weather",
-        description: "Get the current weather in a given location",
-        parameters: {
-          type: "object",
-          properties: {
-            location: {
-              type: "string",
-              description: "The city and state, e.g. San Francisco, CA",
-            },
-            unit: {
-              type: "string",
-              enum: ["celcius", "fahrenheit"],
-            },
-          },
-          required: ["location"],
-        },
-      },
-    ],
+    functions: registry.meta,
   };
 
-  console.log(req.body);
-
-  const getWeather = (location, unit = "fahrenheit") =>
-    JSON.stringify({
-      location: location,
-      temperature: "30",
-      unit: unit,
-      forecast: ["sunny", "windy"],
-    });
+  console.debug(req.body);
 
   try {
-    
     if (!prompt) {
       throw new Error("Uh oh, no prompt was provided");
     }
@@ -45,26 +20,23 @@ export default (openai) => async (req, res) => {
     let response = await openai.createChatCompletion(data);
 
     let choice = response.data.choices[0];
+    let limit = 0;
 
-    while (choice.finish_reason !== "stop") {
+    while (choice.finish_reason !== "stop" && limit < 10) {
       let function_call = null;
       let fnResponse = null;
-      
+
       if (
         choice.finish_reason === "function_call" &&
         choice.message.role === "assistant"
       ) {
-
         function_call = choice.message.function_call;
         const args = JSON.parse(function_call.arguments);
+        const callableFn = registry.fn[function_call.name];
 
-        switch (function_call.name) {
-          case "get_current_weather":
-            fnResponse = getWeather(args.location, args.unit);
-            break;
-          default:
-            throw new Error("Unknown function " + function_call.name);
-        }
+        if (!callableFn) throw new Error("Invalid function");
+
+        fnResponse = callableFn.apply(null, args);
       } // end of function callbacks
 
       data.messages.push({
@@ -75,10 +47,11 @@ export default (openai) => async (req, res) => {
 
       response = await openai.createChatCompletion(data);
       choice = response.data.choices[0];
+      limit++;
     } // end of while loop
 
     const completion = response.data.choices[0].message.content;
-
+    console.log('Request complete');
     // return the result
     return res.status(200).json({
       success: true,
